@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" href="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Green.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <title>Spotify | Login</title>
+</head>
+<body>
+<main>
+    <div class="prev-btn">
+        <section id="brand-image">
+            <img src="images/logo-new.png" alt="">
+        </section>
+    </div>
+
+    <section id="sign-up-form">
+        <div class="form-wrapper">
+            <h1 class="login-header">To continue, log in to Spotify.</h1>
+            
+            <a href="">
+                <button class="btn fb-btn"><i class="fab fa-facebook-f"></i> Continue with Facebook</button>
+            </a>
+            <a href="">
+                <button class="btn apple-btn"><i class="fab fa-apple"></i> Continue with Apple</button>
+            </a>
+            <a href="">
+                <button class="btn google-btn"><i class="fab fa-google-plus-g"></i> Continue with Google</button>
+            </a>
+            <a href="">
+                <button class="btn ph-btn">Continue with phone number</button>
+            </a>
+
+            <!-- ✅ MetaMask Login -->
+            <button class="btn" style="background-color: #1db954;" onclick="connectWithMetaMask()">
+                <i class="fa-brands fa-ethereum"></i> Continue with MetaMask
+            </button>
+            <p id="wallet-address" style="margin-top: 10px; color: #1db954;"></p>
+
+            <div class="divider">
+                <div></div>
+                <p>or</p>
+                <div></div>
+            </div>
+
+            <form id="loginForm">
+                <label>Enter your Email address.</label>
+                <input type="text" name="email" placeholder="Email address " required>
+
+                <label>Enter your Password.</label>
+                <input type="password" name="password" placeholder="Password" required>
+
+                <button type="submit" class="sign-up-btn">Log In</button>
+            </form>
+
+            <span>No Account? Click </span><a href="signup.html">here</a><span> to Signup.</span>
+        </div>
+    </section>
+</main>
+
+<!-- ✅ Popup for error/success -->
+<div class="popup" id="popup">
+    <p id="popupMessage"></p>
+    <button onclick="closePopup()">Close</button>
+</div>
+
+<script>
+    const loginForm = document.getElementById('loginForm');
+    const popup = document.getElementById('popup');
+    const popupMessage = document.getElementById('popupMessage');
+    const walletAddressDisplay = document.getElementById('wallet-address');
+
+    loginForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(loginForm);
+
+        fetch('login.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'index.html';
+            } else {
+                popupMessage.textContent = data.message;
+                popup.classList.add('active');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            popupMessage.textContent = 'An unexpected error occurred. Please try again.';
+            popup.classList.add('active');
+        });
+    });
+
+    function closePopup() {
+        popup.classList.remove('active');
+    }
+
+    // ✅ MetaMask Connect Logic
+    async function connectWithMetaMask() {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                const signer = provider.getSigner();
+                const userAddress = await signer.getAddress();
+                const message = "Log in to Spotify Clone";
+                const signature = await signer.signMessage(message);
+
+                walletAddressDisplay.textContent = `Connected: ${userAddress}`;
+                alert(`Welcome, ${userAddress}`);
+                window.location.href = 'index.html'; // Redirect after login
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong while connecting MetaMask.");
+            }
+        } else {
+            alert("MetaMask is not installed. Please install it to use this feature.");
+        }
+    }
+</script>
+</body>
+</html>

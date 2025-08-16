@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Decentralized Music Player</title>
+    <link rel="icon" href="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Green.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <div class="logo">
+                <a href=""><img src="/placeholder.svg?height=100&width=200" alt="Web3 Music"></a>
+            </div>
+
+            <ul>
+                <li><a href="#" class="active">
+                    <span><i class="fa-solid fa-house"></i></span>
+                    <span>Home</span>
+                </a></li>
+
+                <li><a href="#my-songs" id="my-songs-link">
+                    <span><i class="fa-solid fa-music"></i></span>
+                    <span>My Songs</span>
+                </a></li>
+                
+                <li><a href="#all-songs" id="all-songs-link">
+                    <span><i class="fa-solid fa-list"></i></span>
+                    <span>All Songs</span>
+                </a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-nav box2">
+            <ul>
+                <li>
+                    <div class="wallet-connect">
+                        <h4>Connect your wallet</h4>
+                        <p>Unlock songs with your Ethereum wallet</p>
+                        <span class="btn-link">
+                            <button id="connect-wallet-btn" style="cursor: pointer;">Connect Wallet</button>
+                        </span>
+                        <p id="wallet-status" class="wallet-status"></p>
+                        <p id="network-status" class="network-status"></p>
+                    </div>
+                </li>
+            </ul>
+            <div class="privacy">
+                <ul>
+                    <li>
+                        <a href="">Terms</a>
+                        <a href="">Privacy</a>
+                    </li>
+                    <li>
+                        <a href="">© 2023 Web3 Music</a>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+
+    <div class="main-section">
+        <div class="top-nav">
+            <div class="prev-btn">
+                <button style="cursor: pointer;"><i class="fa-solid fa-chevron-left"></i></button>
+                <button style="cursor: pointer;"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="search-bar">
+                <div class="search-container">
+                    <button style="cursor: pointer;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" placeholder="Search for songs..." class="search-input" id="search-input">
+                </div>
+            </div>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="account">
+                <div class="dropdown">
+                    <button class="button"><i class="fa-solid fa-user"></i></button>
+                    <div class="content">
+                        <a href="login.html">Login</a>
+                        <a href="signup.html">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-container" id="loading-container">
+            <div class="spinner"></div>
+            <p>Loading songs...</p>
+        </div>
+
+        <div class="error-container" id="error-container">
+            <i class="fas fa-exclamation-circle"></i>
+            <p id="error-message">Error message will appear here</p>
+            <button id="dismiss-error">Dismiss</button>
+        </div>
+
+        <div class="spotify-playlist" id="all-songs-section">
+            <h2>All Songs</h2>
+            <div class="card" id="all-songs-grid">
+                <!-- Songs will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="spotify-playlist" id="my-songs-section">
+            <h2>My Unlocked Songs</h2>
+            <div class="card" id="my-songs-grid">
+                <!-- Unlocked songs will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="music-popup" class="music-popup">
+        <div class="popup-header">
+            <h3 id="track-title">Song Title</h3>
+            <button id="close-popup">&times;</button>
+        </div>
+        <audio id="audio-player" controls hidden></audio>
+        <div class="popup-controls">
+            <input type="range" id="seek-slider" value="0" min="0" max="100">
+            <div class="controls">
+                <button id="prev-btn"><i class="fa-solid fa-backward"></i></button>
+                <button id="play-pause-btn"><i class="fa-solid fa-play"></i></button>
+                <button id="next-btn"><i class="fa-solid fa-forward"></i></button>
+            </div>
+            <input type="range" id="volume-slider" value="100" min="0" max="100">
+        </div>
+    </div>
+
+    <div id="transaction-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Unlock Song</h2>
+            <p id="transaction-song-name">Song Name</p>
+            <div class="transaction-details">
+                <p>Price: <span id="transaction-price">0.01 ETH</span></p>
+                <p>Status: <span id="transaction-status">Waiting for confirmation...</span></p>
+            </div>
+            <div class="transaction-spinner" id="transaction-spinner">
+                <div class="spinner"></div>
+            </div>
+            <div class="transaction-buttons">
+                <button id="confirm-transaction" class="confirm-btn">Confirm Purchase</button>
+                <button id="cancel-transaction" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
