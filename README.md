@@ -41,8 +41,8 @@ Here’s how the application appears when running locally on your browser:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/BlackPanther1234567/Decentralized-MusicPlayer.git
-cd Decentralized-MusicPlayer
+git clone https://github.com/BlackPanther1234567/Ethereum-based-Music-Purchase-Platform.git
+cd Ethereum-based-Music-Purchase-Platform
 
 2️⃣ Install Dependencies:
 npm install
