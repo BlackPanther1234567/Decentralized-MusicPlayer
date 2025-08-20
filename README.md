@@ -1,4 +1,4 @@
-# 🎵 Decentralized Music Player dApp  
+# 🎵 Ethereum-based Music Purchase Platform
 
 A decentralized music streaming platform powered by **Ethereum + Hardhat**.  
 This dApp allows users to connect their **MetaMask wallet**, unlock songs using **ETH**, and stream music securely with a blockchain-based payment system.  
